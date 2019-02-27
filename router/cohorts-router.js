@@ -50,6 +50,27 @@ router.get('/cohorts/:id', (req, res) => {
         })
 })
 
+router.get('/cohorts/:id/students', (req, res) => {
+    const id = req.params.id;
+
+    db('students')
+        // const cohortId = req.params.id
+        .where({ 'cohort_id': id })
+        .then(student => {
+            console.log(student)
+            if (student.length > 0) {
+                res.status(200).json(student)
+            } else {
+                res.status(404).json({
+                    message: 'Can not find student.'
+                })
+            }
+        })
+        .catch(err => {
+            res.status(500).json(err)
+        })
+})
+
 // UPDATE REQUEST
 router.put('/cohorts/:id', (req, res) => {
     const id = req.params.id;
